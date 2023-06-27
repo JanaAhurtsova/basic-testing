@@ -1,5 +1,5 @@
 // Uncomment the code below and write your tests
-// import { readFileAsynchronously, doStuffByTimeout, doStuffByInterval } from '.';
+import { readFileAsynchronously, doStuffByTimeout, doStuffByInterval } from '.';
 
 describe('doStuffByTimeout', () => {
   beforeAll(() => {
@@ -11,11 +11,18 @@ describe('doStuffByTimeout', () => {
   });
 
   test('should set timeout with provided callback and timeout', () => {
-    // Write your test here
+    const cb = jest.fn();
+    jest.spyOn(global, 'setTimeout');
+    doStuffByTimeout(cb, 500);
+    expect(setTimeout).toHaveBeenCalledWith(cb, 500);
   });
 
   test('should call callback only after timeout', () => {
-    // Write your test here
+    const cb = jest.fn();
+    doStuffByTimeout(cb, 1000);
+    expect(cb).not.toBeCalled();
+    jest.runAllTimers();
+    expect(cb).toBeCalled();
   });
 });
 
@@ -29,21 +36,33 @@ describe('doStuffByInterval', () => {
   });
 
   test('should set interval with provided callback and timeout', () => {
-    // Write your test here
+    const cb = jest.fn();
+    jest.spyOn(global, 'setInterval');
+    doStuffByInterval(cb, 500);
+    expect(setInterval).toHaveBeenCalledWith(cb, 500);
+    jest.clearAllTimers();
   });
 
   test('should call callback multiple times after multiple intervals', () => {
-    // Write your test here
+    const cb = jest.fn();
+    doStuffByInterval(cb, 1000);
+    expect(cb).not.toBeCalled();
+    jest.runOnlyPendingTimers();
+    expect(cb).toHaveBeenCalledTimes(1);
+    jest.runOnlyPendingTimers();
+    expect(cb).toHaveBeenCalledTimes(2);
+    jest.clearAllTimers();
   });
 });
 
 describe('readFileAsynchronously', () => {
   test('should call join with pathToFile', async () => {
-    // Write your test here
+    // expect().toHaveBeenCalledWith('');
   });
 
   test('should return null if file does not exist', async () => {
-    // Write your test here
+    const readFile = await readFileAsynchronously('file.txt');
+    expect(readFile).toBe(null);
   });
 
   test('should return file content if file exists', async () => {
