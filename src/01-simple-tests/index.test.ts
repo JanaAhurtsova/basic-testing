@@ -11,7 +11,7 @@ describe('simpleCalculator tests', () => {
   });
 
   test('should substract two numbers', () => {
-    const action = Action.Substract;
+    const action = Action.Subtract;
     const result = simpleCalculator({ a, b, action });
     expect(result).toBe(4);
   });

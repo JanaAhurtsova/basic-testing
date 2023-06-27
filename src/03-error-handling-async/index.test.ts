@@ -1,5 +1,11 @@
 // Uncomment the code below and write your tests
-import { throwError, throwCustomError, resolveValue, MyAwesomeError, rejectCustomError } from './index';
+import {
+  throwError,
+  throwCustomError,
+  resolveValue,
+  MyAwesomeError,
+  rejectCustomError,
+} from './index';
 const value = 5;
 const msg = 'Test error';
 const customError = new MyAwesomeError();
@@ -28,7 +34,7 @@ describe('throwError', () => {
 describe('throwCustomError', () => {
   test('should throw custom error', () => {
     expect(() => {
-      throwCustomError()
+      throwCustomError();
     }).toThrowError(customError);
   });
 });
