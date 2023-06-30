@@ -6,8 +6,8 @@ jest.mock('axios');
 
 describe('throttledGetDataFromApi', () => {
   const mockPath = 'test';
-  const users = [{ name: 'Bob' }];
-  const resp = { data: users };
+  const courses = [{ name: 'NodeJS' }];
+  const resp = { data: courses };
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -39,6 +39,6 @@ describe('throttledGetDataFromApi', () => {
   test('should return response data', async () => {
     const result = await throttledGetDataFromApi(mockPath);
     jest.runAllTimers();
-    expect(result).toEqual(users);
+    expect(result).toEqual(courses);
   });
 });
