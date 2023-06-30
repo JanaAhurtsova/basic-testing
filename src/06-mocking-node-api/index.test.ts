@@ -37,12 +37,15 @@ describe('doStuffByInterval', () => {
     jest.useRealTimers();
   });
 
+  afterEach(() => {
+    jest.clearAllTimers();
+  });
+
   test('should set interval with provided callback and timeout', () => {
     const cb = jest.fn();
     jest.spyOn(global, 'setInterval');
     doStuffByInterval(cb, 500);
     expect(setInterval).toHaveBeenCalledWith(cb, 500);
-    jest.clearAllTimers();
   });
 
   test('should call callback multiple times after multiple intervals', () => {
@@ -51,7 +54,6 @@ describe('doStuffByInterval', () => {
     expect(cb).not.toBeCalled();
     jest.advanceTimersByTime(1500);
     expect(cb).toHaveBeenCalledTimes(3);
-    jest.clearAllTimers();
   });
 });
 
@@ -60,11 +62,14 @@ describe('readFileAsynchronously', () => {
   const mockPath = './file.txt';
   const mockContent = 'Test';
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   test('should call join with pathToFile', async () => {
-    const pathToFile = jest.spyOn(path, 'join').mockReturnValueOnce(mockPath);
+    const pathToFile = jest.spyOn(path, 'join').mockReturnValue(mockPath);
     await readFileAsynchronously(mockPath);
     expect(pathToFile).toHaveBeenCalledWith(__dirname, mockPath);
-    pathToFile.mockRestore();
   });
 
   test('should return null if file does not exist', async () => {
